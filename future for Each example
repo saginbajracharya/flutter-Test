@@ -1,0 +1,47 @@
+//loop with all commands
+//from loop call write
+//after write complete call notify
+//after notify value received then continue another index
+
+main() async {
+	writeLoop();  
+}
+
+List<int> lists = [1,2,3,4,5,6]; 
+List _output = []; // results
+// list of commands
+List writeCommandList = [
+  "16C33180bb80106",
+  "10C35000301C00003",
+  "28C360010000001C90321465000000000000000A9",
+  "28C36FF00000000000000000000000000000000A2",
+  "10C3501011EC00118",
+  "28C360010000000F6032100C800000000000000B4",
+  "28C360133000000100140021000C80000000000A1",
+  "28C36FF00000000000000000000000000000000A2",
+  "10C35FF0000000018",
+];
+
+writeLoop()async{
+  await Future.forEach(writeCommandList,(value)async{
+    print('current Index Value ===> $value');
+    var writeResult = await writeToDevice(value);
+    print(writeResult);
+    _output.add(writeResult);
+  });
+  print(_output);
+}
+
+writeToDevice(value)async{
+  await Future.delayed(Duration(milliseconds:300));
+  print('Write Complete ===> $value');
+  var notifyResult = await notifyReturner(value);
+  return notifyResult;
+}
+
+notifyReturner(value)async{
+  print('Notify Started ===> $value');
+	await Future.delayed(Duration(seconds:4));
+  print('Notify Stopped ===> $value');
+  return value+'notifyResult';
+}
