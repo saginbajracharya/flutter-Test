@@ -1,2 +1,3 @@
-# flutter-Test
-test
+# Flutter Examples
+
+1) Future.forEach(list,(value))async{}
